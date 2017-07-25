@@ -23,15 +23,13 @@
 namespace mlpack {
 namespace optimization {
 
-template<typename DecomposableFunctionType, typename UpdatePolicyType>
-SGD<DecomposableFunctionType, UpdatePolicyType>::SGD(
-    DecomposableFunctionType& function,
+template<typename UpdatePolicyType>
+SGD<UpdatePolicyType>::SGD(
     const double stepSize,
     const size_t maxIterations,
     const double tolerance,
     const bool shuffle,
     const UpdatePolicyType updatePolicy) :
-    function(function),
     stepSize(stepSize),
     maxIterations(maxIterations),
     tolerance(tolerance),
@@ -40,8 +38,10 @@ SGD<DecomposableFunctionType, UpdatePolicyType>::SGD(
 { /* Nothing to do. */ }
 
 //! Optimize the function (minimize).
-template<typename DecomposableFunctionType, typename UpdatePolicyType>
-double SGD<DecomposableFunctionType, UpdatePolicyType>::Optimize(
+template<typename UpdatePolicyType>
+template<typename DecomposableFunctionType>
+double SGD<UpdatePolicyType>::Optimize(
+    DecomposableFunctionType& function,
     arma::mat& iterate)
 {
   // Find the number of functions to use.
@@ -65,7 +65,7 @@ double SGD<DecomposableFunctionType, UpdatePolicyType>::Optimize(
     overallObjective += function.Evaluate(iterate, i);
 
   // Initialize the update policy.
-  updatePolicy.Initialize(iterate.n_rows,iterate.n_cols);
+  updatePolicy.Initialize(iterate.n_rows, iterate.n_cols);
 
   // Now iterate!
   arma::mat gradient(iterate.n_rows, iterate.n_cols);

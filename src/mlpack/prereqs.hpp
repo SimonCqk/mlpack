@@ -30,10 +30,8 @@
 #include <climits>
 #include <cfloat>
 #include <cstdint>
-#include <iostream>
 #include <stdexcept>
 #include <tuple>
-#include <queue>
 #include <utility>
 
 // But if it's not defined, we'll do it.
@@ -105,6 +103,13 @@ using enable_if_t = typename enable_if<B, T>::type;
 #ifdef _MSC_VER
   #pragma warning(disable : 4519)
   #define ARMA_USE_CXX11
+#endif
+// This can be removed with Visual Studio supports an OpenMP version with
+// unsigned loop variables.
+#ifdef _WIN32
+  #define omp_size_t intmax_t
+#else
+  #define omp_size_t size_t
 #endif
 
 // We need to be able to mark functions deprecated.

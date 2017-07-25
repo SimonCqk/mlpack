@@ -186,7 +186,7 @@ endif()
 #   BOOST_LIBRARYDIR - library directory for Boost
 #   MATHJAX_ROOT - root of MathJax installation
 
-find_package(Armadillo 4.200.0 REQUIRED)
+find_package(Armadillo 6.500.0 REQUIRED)
 
 # If Armadillo was compiled without ARMA_64BIT_WORD and we are on a 64-bit
 # system (where size_t will be 64 bits), suggest to the user that they should
@@ -318,8 +318,8 @@ endif ()
 # some reason.
 include(CMake/TargetDistclean.cmake OPTIONAL)
 
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${MLPACK_INCLUDE_DIRS})
+include_directories(BEFORE ${MLPACK_INCLUDE_DIRS})
+include_directories(BEFORE ${CMAKE_SOURCE_DIR}/src/)
 
 # On Windows, things end up under Debug/ or Release/.
 if (WIN32)
